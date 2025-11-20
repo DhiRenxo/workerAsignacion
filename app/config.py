@@ -1,9 +1,12 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
-    # Resend
-    RESEND_API_KEY: str
-    RESEND_FROM: str
+    # SMTP Gmail
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_FROM: str
+    MAIL_SERVER: str = "smtp.gmail.com"
+    MAIL_PORT: int = 587
 
     # MQTT
     MQTT_BROKER: str

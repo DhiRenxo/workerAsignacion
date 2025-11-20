@@ -1,4 +1,3 @@
 paho-mqtt
 python-dotenv
 pydantic-settings
-resend
