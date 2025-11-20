@@ -1,19 +1,18 @@
-import smtplib
-from email.mime.text import MIMEText
+import resend
+from app.config import settings
 
-def enviar_email_smtp(destinatario: str, asunto: str, mensaje: str,
-                    mail_from, mail_server, mail_port, mail_username, mail_password):
+resend.api_key = settings.RESEND_API_KEY
+
+def enviar_email_resend(destinatario: str, asunto: str, mensaje: str):
     try:
-        msg = MIMEText(mensaje, "html", "utf-8")
-        msg["Subject"] = asunto
-        msg["From"] = mail_from
-        msg["To"] = destinatario
+        resend.Emails.send({
+            "from": settings.RESEND_FROM,
+            "to": destinatario,
+            "subject": asunto,
+            "html": mensaje
+        })
 
-        with smtplib.SMTP(mail_server, mail_port) as server:
-            server.starttls()
-            server.login(mail_username, mail_password)
-            server.sendmail(mail_from, destinatario, msg.as_string())
+        print(f"✅ Email enviado a {destinatario} con RESEND")
 
-        print(f"✅ Email enviado a {destinatario}")
     except Exception as e:
-        print(f"❌ Error al enviar email a {destinatario}: {str(e)}")
+        print(f"❌ Error al enviar email con RESEND a {destinatario}: {str(e)}")
